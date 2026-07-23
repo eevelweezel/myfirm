@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="description" content="Welcome to the Firm of Meeeeeee!"/>
+<meta property="og:title" content="My Law Firm"/>
+<meta property="og:description" content="Yay, Content!"/>
+<meta property="og:url" content="https://right-here.org"/>
+{% load static %}
+
+{# Bootstrap... CSS, JavaScript, Messages #}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+<style type="text/css">
+.fluid_container {
+    margin: 0 auto;
+    /* align centered */
+    width: 100%;
+    max-width: 900px;
+    overflow: hidden;
+}
+h1 {
+    font-weight: bold;
+}
+h1, h2, h3, h4 {
+    text-align: center!important;
+}
+h3 {
+    font-style: italic;
+    font-size: 1.55rem;
+}
+body, a, p, h1, h2, h3, h4, span, legend, fieldset {
+    color: black !important;
+    font-family: Arial;
+}
+body {
+    -webkit-font-smoothing: antialiased;
+}
+.bg-light {
+    background-color: white !important;
+}
+.italic {
+    font-style: italic !important;
+}
+
+@media (max-device-width: 1200px) {
+  legend {
+    font-size: calc(1.275rem + 2vw);
+  }
+  h1,
+  .h1 {
+    font-size: calc(2.25rem + 2vw);
+  }
+  h2,
+  .h2 {
+    font-size: calc(2.0rem + 2vw);
+  }
+  h3,
+  .h3 {
+    font-size: calc(1.65rem + 2vw);
+  }
+  h4,
+  .h4 {
+    font-size: calc(1.65rem + 2vw);
+  }
+  .display-1 {
+    font-size: calc(1.725rem + 5.7vw);
+  }
+  .display-2 {
+    font-size: calc(1.675rem + 5.1vw);
+  }
+  .display-3 {
+    font-size: calc(1.575rem + 3.9vw);
+  }
+  .display-4 {
+    font-size: calc(1.475rem + 2.7vw);
+  }
+  .close {
+    font-size: calc(1.275rem + 0.3vw);
+  }
+  .nav-item {
+    font-size: calc(1.25rem + 3.5vw);
+    font-weight: 500;
+  }
+  p {
+    font-size: calc(1.25rem + 2vw);
+  }
+  span {
+    font-size: calc(1.25rem + 2vw);
+    height: calc(1.5rem + 2vw);
+  }
+  .btn-lg {
+    min-width: 300px;
+    font-size: calc(1.25rem + 2vw);
+  } 
+  .ytp-large-play-button {
+    min-width: calc(1.5rem + 2vw);
+  }
+  fieldset {
+    font-size: calc(1.25rem + 2vw);
+  }
+}   
+</style>
+</head>
+<body>
+<div class="fluid_container">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+<ul class="navbar-nav nav-fill w-100">
+<li class="nav-item menu-item">
+<a class-"nav-link" href="/">Home</a>
+</li>
+{% for s in sections %}
+<li class="nav-item menu-item">
+<a class-"nav-link" href="#{{ s.slug }}">{{ s.link_text }}</a>
+</li>
+{% endfor %}
+<li class="nav-item menu-item">
+<a class-"nav-link" href="/contact/">Contact Us</a>
+</li>
+</ul>
+</nav>
+</div>
+<br>
+<br>
+<div class="fluid_container">
+<h1 class="text-center">Law Firm</h1>
+<a href="/"><img class="img-fluid d-block mx-auto" src="{{MEDIA_URL}}website_logo_blk.png" vspace="10" alt="Logo" style="height:50px;"/></a>
+</div>
+<br>
+<div class="fluid_container">
+{% for s in sections %}
+   <h3 class="text-center" id="{{s.slug}}">{{ s.title }}</h3>
+   {% if s.image %}
+        <img src="{{MEDIA_URL}}{{s.image}}"</img>
+   {% endif %}
+   <p>{{ s.body }}</p>
+{% endfor %}
+</div>
+<br>
+<div class="fluid_container">
+   <h3 class="text-center" id="contact">Contact Us</h3>
+   <form action="/contact" method="post" class="form-horizontal">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button button_type="submit" content="Send" %}
+   </form>
+</div>
+<br>
+<br>
+<div class="fluid_container">
+<p><a href='/'>Home</a> | <a href="tel:3121234567">Call Now</a> | Site by <a href="https://github.com/eevelweezel">Weezel</a>, 2026.</p>
+</div>
+</body>
+</html>
