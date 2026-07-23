@@ -3,14 +3,15 @@ from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 
-from . import forms
+from . import forms, models
 
 class Home(TemplateView):
-    template_view = "home.html"
+    template_view = "base.html"
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context["sections"] = Sections.objects.filter(published=True)
+        context["info"] = Info.objects.all() # should only be ONE!
         return context
 
     def get(self, request, *args, **kwargs):
@@ -37,8 +38,8 @@ class Home(TemplateView):
             EmailMessage(
                 subject=f"[contact form] {subject}",
                 body=body,
-                from_email="contact-form@example.com",
-                to=["info@example.com"],
+                from_email=settings.TO_EMAIL,
+                to=[settings.TO_EMAIL],
                 reply_to=[contact_email],
             ).send()
 
