@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "myfirm"
+dynamic = ["version"]
+requires-python = ">= 3.14"
+dependencies = [
+    "django",
+    "django_bootstrap5",
+]
+authors = [
+  {name = "eevelweezel", email = "eevel.weezel@gmail.com"},
+]
+description = "A dynamic django website for single proprietors."
+readme = "README.rst"
+license = "MIT"
+license-files = ["LICENSE", "LICENSE.python", "AUTHORS"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Framework :: Django",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Internet :: WWW/HTTP :: WSGI",
+]
+
+[project.optional-dependencies]
+argon2 = ["argon2-cffi>=23.1.0"]
+bcrypt = ["bcrypt>=4.1.1"]
+
+[project.scripts]
+django-admin = "django.core.management:execute_from_command_line"
+
+[project.urls]
+Homepage = "https://github.com/eevelweezel/myfirm"
+
+[tool.black]
+target-version = ["py314"]
+
+[tool.isort]
+profile = "black"
+default_section = "THIRDPARTY"
+known_first_party = "django"
+
+[tool.setuptools.dynamic]
+version = {attr = "django.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["myfirm*"]
