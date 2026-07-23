@@ -5,10 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "myfirm"
 dynamic = ["version"]
-requires-python = ">= 3.14"
+requires-python = ">= 3.12"
 dependencies = [
     "django",
-    "django_bootstrap5",
+    "django-bootstrap5",
 ]
 authors = [
   {name = "eevelweezel", email = "eevel.weezel@gmail.com"},
@@ -24,6 +24,8 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
     "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
     "Topic :: Internet :: WWW/HTTP :: WSGI",
@@ -40,15 +42,13 @@ django-admin = "django.core.management:execute_from_command_line"
 Homepage = "https://github.com/eevelweezel/myfirm"
 
 [tool.black]
-target-version = ["py314"]
+target-version = ["py312"]
 
 [tool.isort]
 profile = "black"
-default_section = "THIRDPARTY"
-known_first_party = "django"
 
 [tool.setuptools.dynamic]
-version = {attr = "django.__version__"}
+version = {attr = "myfirm.__version__"}
 
 [tool.setuptools.packages.find]
 include = ["myfirm*"]
