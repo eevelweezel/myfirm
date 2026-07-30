@@ -1,27 +1,27 @@
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
+from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from . import forms, models
 
 class Home(TemplateView):
-    template_view = "base.html"
+    template_name = "myfirm/base.html"
 
-    def get_context_data(self, *args, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["sections"] = Sections.objects.filter(published=True)
-        context["info"] = Info.objects.all() # should only be ONE!
+        context["sections"] = models.Section.objects.filter(published=True)
+        context["info"] = models.Info.objects.filter(active=True) # should only be ONE!
+        context["form"] = forms.Contact()
         return context
 
     def get(self, request, *args, **kwargs):
-        context = self.get_context_view(*args, **kwargs)
-        content = self.template_view.render(context)
-        return HttpResponse(content, status_code=200)
+        context = self.get_context_data(*args, **kwargs)
+        return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        context = self.get_context_view(*args, **kwargs)
-        content = self.template_view.render(context)
+        context = self.get_context_data(*args, **kwargs)
         form = forms.Contact(request.POST)
         if form.is_valid():
             # Send an email & display "SUCCESS" message inline
@@ -44,4 +44,4 @@ class Home(TemplateView):
             ).send()
 
             messages.success(request, "Thanks! We'll get back to you shortly!")
-        return HttpResponse(content, status_code=200)
+        return render(request, self.template_name, context)

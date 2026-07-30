@@ -1,17 +1,20 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="description" content="{{ info.description }}/>
-<meta property="og:title" content="{{ info.name }}"/>
-<meta property="og:description" content="{{ info.social_description }}"/>
-<meta property="og:url" content="{{ info.url }}"/>
+<meta name="description" content="{{ info.0.description|safe_markdown }}"/>
+<meta property="og:title" content="{{ info.0.firm_name }}"/>
+<meta property="og:description" content="{{ info.0.social_description|safe_markdown }}"/>
+<meta property="og:url" content="{{ info.0.url }}"/>
 {% load static %}
 
 {# Bootstrap... CSS, JavaScript, Messages #}
-{% load bootstrap5 %}
+{% load django_bootstrap5 %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 {% bootstrap_messages %}
+
+{# Martor editor #}
+{% load martortags %}
 
 <style type="text/css">
 .fluid_container {
@@ -101,7 +104,9 @@ body {
   fieldset {
     font-size: calc(1.25rem + 2vw);
   }
-}   
+}
+ <link href="{% static 'plugins/css/ace.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+ <link href="{% static 'martor/css/martor.bootstrap.min.css' %}" type="text/css" media="all" rel="stylesheet" />   
 </style>
 </head>
 <body>
@@ -117,7 +122,7 @@ body {
 </li>
 {% for s in sections %}
 <li class="nav-item menu-item">
-<a class-"nav-link" href="#{{ s.slug }}">{{ s.menu_text }}</a>
+<a class-"nav-link" href="#{{ s.slug }}">{{ s.link_text }}</a>
 </li>
 {% endfor %}
 <li class="nav-item menu-item">
@@ -129,40 +134,55 @@ body {
 <br>
 <br>
 <div class="fluid_container">
-<h1 class="text-center">My Firm</h1>
-<a href="/"><img class="img-fluid d-block mx-auto" src="{{ info.logo}}" vspace="10" alt="Logo" style="height:50px;"/></a>
+<h1 class="text-center">{{ info.0.firm_name }}</h1>
+<img class="img-fluid d-block mx-auto" src="{{ MEDIA_URL }}{{ info.0.logo}}" vspace="10" alt="{{ info.0.firm_name }} Logo" style="height:150px;"/>
 </div>
 <br>
 <div class="fluid_container">
 {% if messages %}
 <ul class="messages">
     {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
     {% endfor %}
 </ul>
 {% endif %}
 <br>
 {% for s in sections %}
-   <h3 class="text-center" id="{{s.slug}}">{{ s.title }}</h3>
+   <div class="fluid_container">
+   <h3 class="text-center" id="{{ s.slug }}">{{ s.title }}</h3>
+   <br>
    {% if s.image %}
-        <img src="{{MEDIA_URL}}{{s.image}}"</img>
+        <img class="img-fluid d-block mx-auto" src="{{ MEDIA_URL }}{{ s.image }}"></img>
    {% endif %}
+   <br>
    <p>{{ s.body }}</p>
 {% endfor %}
 </div>
 <br>
 <div class="fluid_container">
    <h3 class="text-center" id="contact">Contact Us</h3>
-   <form action="/" method="post" class="form-horizontal">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    {% bootstrap_button button_type="submit" content="Send" %}
+   {% bootstrap_form form %}
+   <form class="form-horizontal" method="post">{% csrf_token %}
+    <div class="form-actions">
+        {% bootstrap_button button_type="submit" content="Send" %}
+    </div>
    </form>
 </div>
 <br>
 <br>
 <div class="fluid_container">
-<p><a href='/'>Home</a> | <a href="tel:+1{{ info.phone }}">Call Now</a> | Site by <a href="https://github.com/eevelweezel">Weezel</a>, 2026.</p>
+<p><a href='/'>Home</a> | <a href="tel:+1{{ info.0.phone }}">{{ info.0.phone }}</a> | Site by <a href="https://github.com/eevelweezel">Weezel</a>, 2026.</p>
 </div>
 </body>
+{% block js %}
+  <script type="text/javascript" src="{% static 'plugins/js/ace.js' %}"></script>
+  <script type="text/javascript" src="{% static 'plugins/js/mode-markdown.js' %}"></script>
+  <script type="text/javascript" src="{% static 'plugins/js/ext-language_tools.js' %}"></script>
+  <script type="text/javascript" src="{% static 'plugins/js/theme-github.js' %}"></script>
+  <script type="text/javascript" src="{% static 'plugins/js/typo.js' %}"></script>
+  <script type="text/javascript" src="{% static 'plugins/js/spellcheck.js' %}"></script>
+  <script type="text/javascript" src="{% static 'plugins/js/highlight.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'plugins/js/emojis.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'martor/js/martor.bootstrap.min.js' %}"></script>
+{% endblock %}
 </html>

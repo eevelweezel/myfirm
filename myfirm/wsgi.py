@@ -1,5 +1,5 @@
 """
-WSGI config for lawfirm project.
+WSGI config for myfirm project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

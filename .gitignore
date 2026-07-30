@@ -2,7 +2,11 @@
 *.pot
 *.py[co]
 .tox/
+*.swp
 __pycache__
 MANIFEST
 dist/
 build/
+db.sqlite3
+media/
+static/
