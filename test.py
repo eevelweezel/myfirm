@@ -16,6 +16,7 @@ class FunctionalTests(TestCase):
             phone="+1.000.000.0000",
             logo="logo.jpg",
             active=True,
+            contact_form_email="me@ponies-r-us.com",
         )
         Section.objects.create(
             published=True,
@@ -48,6 +49,7 @@ class FunctionalTests(TestCase):
                 phone="+1.000.000.0001",
                 logo="logo.jpg",
                 active=True,
+                contact_form_email="me@zombies-r-us-ii.com",
             )
         
     def test_contact(self):

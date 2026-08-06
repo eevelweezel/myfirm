@@ -10,6 +10,7 @@ class Info(models.Model):
     phone = models.CharField(max_length=25)
     logo = models.ImageField()    
     active = models.BooleanField()
+    contact_form_email = models.EmailField() 
 
     def __str__(self):
         return self.firm_name

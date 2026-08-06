@@ -24,6 +24,7 @@ class Home(TemplateView):
         context = self.get_context_data(*args, **kwargs)
         form = forms.Contact(request.POST)
         if form.is_valid():
+            recipient = context.get("info").get("contact_form_email")
             # Send an email & display "SUCCESS" message inline
             subject = form.cleaned_data["subject"]
             message = form.cleaned_data["message"]
@@ -38,8 +39,8 @@ class Home(TemplateView):
             EmailMessage(
                 subject=f"[contact form] {subject}",
                 body=body,
-                from_email=settings.TO_EMAIL,
-                to=[settings.TO_EMAIL],
+                from_email=recipient,
+                to=recipient,
                 reply_to=[contact_email],
             ).send()
 
